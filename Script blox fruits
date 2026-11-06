@@ -1,0 +1,75 @@
+-- Blox Fruits Hub - painel visual de exemplo
+-- Este arquivo cria apenas a interface e os botões.
+-- Não automatiza farm, giros, nem interage com sistemas internos do jogo.
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "BloxFruitsAuto"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(260, 230)
+frame.Position = UDim2.new(0.5, -130, 0.5, -115)
+frame.BackgroundColor3 = Color3.fromRGB(22, 24, 36)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 14)
+corner.Parent = frame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 48)
+title.BackgroundTransparency = 1
+title.Text = "BLOX FRUITS HUB"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 19
+title.Parent = frame
+
+local function makeButton(label, y, color)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -32, 0, 42)
+    button.Position = UDim2.fromOffset(16, y)
+    button.BackgroundColor3 = color
+    button.BorderSizePixel = 0
+    button.Text = label
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.Font = Enum.Font.GothamSemibold
+    button.TextSize = 14
+    button.Parent = frame
+
+    local buttonCorner = Instance.new("UICorner")
+    buttonCorner.CornerRadius = UDim.new(0, 9)
+    buttonCorner.Parent = button
+
+    return button
+end
+
+local farmEnabled = false
+local spinEnabled = false
+
+local farmButton = makeButton("Auto Farm Doce: OFF", 60, Color3.fromRGB(105, 65, 190))
+local spinButton = makeButton("Auto Girar Fruta: OFF", 112, Color3.fromRGB(55, 115, 190))
+local stopButton = makeButton("PARAR TUDO", 164, Color3.fromRGB(180, 55, 65))
+
+farmButton.Activated:Connect(function()
+    farmEnabled = not farmEnabled
+    farmButton.Text = farmEnabled and "Auto Farm Doce: ON" or "Auto Farm Doce: OFF"
+end)
+
+spinButton.Activated:Connect(function()
+    spinEnabled = not spinEnabled
+    spinButton.Text = spinEnabled and "Auto Girar Fruta: ON" or "Auto Girar Fruta: OFF"
+end)
+
+stopButton.Activated:Connect(function()
+    farmEnabled = false
+    spinEnabled = false
+    farmButton.Text = "Auto Farm Doce: OFF"
+    spinButton.Text = "Auto Girar Fruta: OFF"
+end)
+
